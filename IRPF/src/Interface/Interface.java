@@ -15,6 +15,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JTextArea;
+import java.awt.Color;
 
 public class Interface extends JFrame {
 
@@ -55,7 +57,7 @@ public class Interface extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.inactiveCaption);
-		panel.setBounds(10, 11, 254, 264);
+		panel.setBounds(10, 36, 264, 516);
 		contentPane.add(panel);
 		
 		JLabel lbNome = new JLabel("Nome do Contribuinte:");
@@ -80,10 +82,10 @@ public class Interface extends JFrame {
 		tIdade.setColumns(10);
 		
 		JLabel lbNumeroDependentes = new JLabel("Qtd. Dependentes:");
-		lbNumeroDependentes.setBounds(10, 161, 116, 14);
+		lbNumeroDependentes.setBounds(10, 247, 116, 14);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 178, 94, 20);
+		comboBox.setBounds(10, 272, 94, 20);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
 		
 		JLabel lbContribuicaoOficial = new JLabel("Contrib.Trib.Oficial:");
@@ -104,7 +106,7 @@ public class Interface extends JFrame {
 		tTotalRendimentos.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Enviar Dados");
-		btnNewButton.setBounds(10, 209, 230, 29);
+		btnNewButton.setBounds(10, 320, 230, 29);
 		panel.setLayout(null);
 		panel.add(lbNome);
 		panel.add(tNome);
@@ -120,5 +122,21 @@ public class Interface extends JFrame {
 		panel.add(lbTotalRendimentos);
 		panel.add(tTotalRendimentos);
 		panel.add(btnNewButton);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(333, 32, 325, 520);
+		contentPane.add(textArea);
+		
+		JLabel lbTitulo1 = new JLabel("FORMUL\u00C1RIO DE DECLARA\u00C7\u00C3O:");
+		lbTitulo1.setForeground(new Color(224, 255, 255));
+		lbTitulo1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbTitulo1.setBounds(10, 11, 275, 14);
+		contentPane.add(lbTitulo1);
+		
+		JLabel lblNewLabel_1 = new JLabel("INFORMA\u00C7\u00D5ES:");
+		lblNewLabel_1.setForeground(new Color(224, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(403, 11, 179, 14);
+		contentPane.add(lblNewLabel_1);
 	}
 }
