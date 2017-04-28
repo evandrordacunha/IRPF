@@ -1,69 +1,130 @@
 package Business;
 
+import javax.swing.JOptionPane;
+
 public class PessoaFisica {
 	
+	/**
+	 * String nome, cpf
+	 * int idade
+	 */
 	private String nome, cpf;
-	private int idade,numeroDependentes;
-	private double totalRendimentos,contribuicaoPrevOficial;
-	
-	
-	public PessoaFisica(String nome, String cpf, int idade, int numeroDependentes, double totalRendimentos,
-			double contribuicaoPrevOficial) {
+	private int idade,totalDependentes,totalRendimentos;
+
+	public PessoaFisica(String nome, String cpf, int idade, int totalDependentes,int totalRendimentos) {
 		setNome(nome);
 		setCpf(cpf);
 		setIdade(idade);
-		setNumeroDependentes(numeroDependentes);
 		setTotalRendimentos(totalRendimentos);
-		setContribuicaoPrevOficial(contribuicaoPrevOficial);
 	}
+	/**
+	 * 
+	 * @return nome
+	 */
 	public String getNome() {
 		return nome;
 	}
-	public void setNome(String nome) {
+	/**
+	 * 
+	 * @param nome
+	 * @return FALSE se não for informado campo nome e TRUE se for.
+	 */
+	public boolean setNome(String nome) {
+		if(nome.length() == 0){
+			JOptionPane.showMessageDialog(null, "Você deve preencher o campo nome! ");
+			return false;
+		}else{
 		this.nome = nome;
+		return true;
+		}
 	}
+	/**
+	 * 
+	 * @return cpf
+	 */
 	public String getCpf() {
 		return cpf;
 	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	/**
+	 * 
+	 * @param cpf
+	 */
+	public boolean setCpf(String cpf) {
+		if(cpf.length() != 11 ){
+			JOptionPane.showInputDialog(null,"Você deve informar os 11 dígitos do seu CPF! ");
+			return false;
+		}else{
+			this.cpf = cpf;
+			return true;
+		}
 	}
+	/**
+	 * 
+	 * @return idade
+	 */
 	public int getIdade() {
 		return idade;
 	}
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
-	public int getNumeroDependentes() {
-		return numeroDependentes;
-	}
-	public void setNumeroDependentes(int numeroDependentes) {
-		this.numeroDependentes = numeroDependentes;
-	}
+	/**
+	 * 
+	 * @return totalRendimentos
+	 */
 	public double getTotalRendimentos() {
 		return totalRendimentos;
 	}
-	public void setTotalRendimentos(double totalRendimentos) {
-		this.totalRendimentos = totalRendimentos;
+
+	/**
+	 * 
+	 * @param totalRendimentos
+	 * @return FALSE se total de rendimentos informado for <= 0 ou TRUE se o
+	 *         valor informado é válido.
+	 */
+
+	public boolean setTotalRendimentos(double totalRendimentos) {
+		if (totalRendimentos <= 0) {
+			JOptionPane.showMessageDialog(null, "Total de rendimentos deve ser superior a R$ 0 !");
+			return false;
+		} else {
+			totalRendimentos = totalRendimentos;
+			return true;
+		}
 	}
-	public double getContribuicaoPrevOficial() {
-		return contribuicaoPrevOficial;
+
+	/**
+	 * 
+	 * @return totalDependentes
+	 */
+	public int getTotalDependentes() {
+		return totalDependentes;
 	}
-	public void setContribuicaoPrevOficial(double contribuicaoPrevOficial) {
-		this.contribuicaoPrevOficial = contribuicaoPrevOficial;
+	
+	/**
+	 * 
+	 * @param totalDependentes
+	 * @return False se valor for negativo e TRUE se valor >=0
+	 */
+	public boolean setTotalDependentes(int totalDependentes) {
+		if (totalDependentes < 0) {
+			JOptionPane.showMessageDialog(null, "Valor informado para Total de Dependentes é inválido!");
+			return false;
+		} else {
+			this.totalDependentes = totalDependentes;
+			return true;
+		}
 	}
+
+	
 	@Override
 	public String toString() {
 		String s = "Nome: "+getNome() +"\n"
 				+"CPF: " +getCpf() +"\n"
 				+"Idade: "+getIdade()+"\n"
-				+"Número de Dependentes: "+getNumeroDependentes() +"\n"
 				+"Total de Rendimentos: "+getTotalRendimentos() +"\n"
-				+"Contribuição Previdenciária Oficial "+getContribuicaoPrevOficial()+"\n";
+				+"Total de Dependentes: "+getTotalDependentes()+"\n";
 		return s;
 		
 	}
-	
-	
-
 }

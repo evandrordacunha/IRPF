@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Business.ControleFormulario;
+import Business.Declaracao;
+
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -17,6 +21,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Interface extends JFrame {
 
@@ -26,6 +33,10 @@ public class Interface extends JFrame {
 	private JTextField tIdade;
 	private JTextField tContribuicaoOficial;
 	private JTextField tTotalRendimentos;
+	private String nome, cpf;
+	private int idade,totalDependentes;
+	private double contribuicao,rendimentos;
+	private boolean declaracaoSimplificada,declaracaoCompleta;
 
 	/**
 	 * Launch the application.
@@ -50,13 +61,13 @@ public class Interface extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 714, 601);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.activeCaption);
+		contentPane.setBackground(new Color(70, 130, 180));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(SystemColor.inactiveCaption);
+		panel.setBackground(SystemColor.controlHighlight);
 		panel.setBounds(10, 36, 264, 516);
 		contentPane.add(panel);
 		
@@ -78,7 +89,7 @@ public class Interface extends JFrame {
 		lbIdade.setBounds(10, 122, 46, 14);
 		
 		tIdade = new JTextField();
-		tIdade.setBounds(10, 138, 94, 20);
+		tIdade.setBounds(10, 138, 109, 20);
 		tIdade.setColumns(10);
 		
 		JLabel lbNumeroDependentes = new JLabel("Qtd. Dependentes:");
@@ -98,14 +109,41 @@ public class Interface extends JFrame {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(111, 178, 46, 14);
 		
-		JLabel lbTotalRendimentos = new JLabel("Rendimentos Total:");
-		lbTotalRendimentos.setBounds(136, 161, 118, 14);
+		JLabel lbTotalRendimentos = new JLabel("Total Rendimentos:");
+		lbTotalRendimentos.setBounds(10, 169, 118, 14);
+		
+		JRadioButton rdSimples = new JRadioButton("Simplificada");
+		rdSimples.setBounds(10, 212, 109, 23);
+		panel.add(rdSimples);
+		
+		JRadioButton rdCompleta = new JRadioButton("Completa");
+		rdCompleta.setBounds(131, 212, 109, 23);
+		panel.add(rdCompleta);
 		
 		tTotalRendimentos = new JTextField();
-		tTotalRendimentos.setBounds(136, 178, 104, 20);
+		tTotalRendimentos.setBounds(10, 185, 109, 20);
 		tTotalRendimentos.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Enviar Dados");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				nome = tNome.getText().toUpperCase();
+				cpf = tCpf.getText();
+				idade = Integer.parseInt(tIdade.getText());
+				rendimentos = Double.parseDouble(tTotalRendimentos.getText());
+				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
+				declaracaoSimplificada = rdSimples.isSelected();
+				declaracaoCompleta = rdCompleta.isSelected();
+				ControleFormulario control = new ControleFormulario();
+				control.validaTipoDeclaracao(declaracaoSimplificada, declaracaoCompleta);
+				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
+				///Declaracao declaracao = new Declaracao(nome, cpf, idade, tipoDeclaracao, contribuicaoPrevOficial, totalRendimentos, totalDependentes);
+				
+				
+			}
+		});
+		btnNewButton.setBackground(new Color(112, 128, 144));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(10, 320, 230, 29);
 		panel.setLayout(null);
 		panel.add(lbNome);
@@ -122,6 +160,8 @@ public class Interface extends JFrame {
 		panel.add(lbTotalRendimentos);
 		panel.add(tTotalRendimentos);
 		panel.add(btnNewButton);
+		
+
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(333, 32, 325, 520);
