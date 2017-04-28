@@ -88,19 +88,19 @@ public class Declaracao extends PessoaFisica {
 		if(p.getIdade() <65 && p.getTotalDependentes() <=2){
 			contribuicaoOficial = p.getTotalRendimentos()*0.02;
 		}
-		else if(p.getIdade() <65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
+		if(p.getIdade() <65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
 			contribuicaoOficial = p.getTotalRendimentos()*0.035;
 		}
-		else if(p.getIdade() <65 && (p.getTotalDependentes() >5 )){
+		if(p.getIdade() <65 && (p.getTotalDependentes() >5 )){
 			contribuicaoOficial = p.getTotalRendimentos()*0.05;
 		}
-		else if(p.getIdade() >=65 && (p.getTotalDependentes() <=2 )){
+		if(p.getIdade() >=65 && (p.getTotalDependentes() <=2 )){
 			contribuicaoOficial = p.getTotalRendimentos()*0.03;
 		}
-		else if(p.getIdade() >=65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
+		if(p.getIdade() >=65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
 			contribuicaoOficial = p.getTotalRendimentos()*0.045;
 		}
-		else if(p.getIdade() >=65 && (p.getTotalDependentes() >=5 )){
+		if(p.getIdade() >=65 && (p.getTotalDependentes() >=5 )){
 			contribuicaoOficial = p.getTotalRendimentos()*0.06;
 		}
 		double base = totalRendimentos - contribuicaoOficial ;
@@ -113,7 +113,7 @@ public class Declaracao extends PessoaFisica {
 			valorCalculado = base;
 			return valorCalculado;
 		}
-		else if(base >12000 && base <24000){
+		if(base >12000 && base <24000){
 			valorCalculado = base * 0.15;
 			return valorCalculado;
 		}
