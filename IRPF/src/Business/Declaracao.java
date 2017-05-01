@@ -1,5 +1,4 @@
 package Business;
-
 import javax.swing.JOptionPane;
 
 public class Declaracao extends PessoaFisica {
@@ -8,7 +7,7 @@ public class Declaracao extends PessoaFisica {
 	 * String tipoDeclaracao double contribuicaoPrevOficial,totalRendimentos
 	 */
 	private String tipoDeclaracao;
-	private double contribuicaoPrevOficial;
+	private double impostoPago;
 
 	/**
 	 * 
@@ -17,14 +16,16 @@ public class Declaracao extends PessoaFisica {
 	 * @param idade
 	 * @param totalDependentes
 	 * @param totalRendimentos
+	 * @param contribuicaoOficial
 	 * @param tipoDeclaracao
 	 * @param contribuicaoPrevOficial
+	 * @param impostoPago
 	 */
-	public Declaracao(String nome, String cpf, int idade, int totalDependentes, int totalRendimentos,
-			String tipoDeclaracao, double contribuicaoPrevOficial) {
-		super(nome, cpf, idade, totalDependentes, totalRendimentos);
+	public Declaracao(String nome, String cpf, int idade, int totalDependentes, double totalRendimentos,
+			double contribuicaoOficial, String tipoDeclaracao, double contribuicaoPrevOficial, double impostoPago) {
+		super(nome, cpf, idade, totalDependentes, totalRendimentos, contribuicaoOficial);
 		setTipoDeclaracao(tipoDeclaracao);
-		setContribuicaoPrevOficial(contribuicaoPrevOficial);
+		setImpostoPago(impostoPago);
 	}
 
 	/**
@@ -51,85 +52,103 @@ public class Declaracao extends PessoaFisica {
 			this.tipoDeclaracao = tipoDeclaracao;
 			return true;
 		}
-	}
-
-	/**
-	 * 
-	 * @return contribuicaoPrevOficial
-	 */
-	public double getContribuicaoPrevOficial() {
-		return contribuicaoPrevOficial;
-	}
-
-	/**
-	 * 
-	 * @param contribuicaoPrevOficial
-	 * @return FALSE se contribuição informada for <=0 e TRUE se o valor
-	 *         informado é válido.
-	 */
-	public boolean setContribuicaoPrevOficial(double contribuicaoPrevOficial) {
-		if (contribuicaoPrevOficial <= 0) {
-			JOptionPane.showMessageDialog(null, "Você deve informar o valor de contribuição de previdencia oficial!");
-			return false;
-		} else {
-			this.contribuicaoPrevOficial = contribuicaoPrevOficial;
-			return true;
-		}
-	}
+	}	
 	/**
 	 * 
 	 * @param p
-	 * @return double totalTendimentos
+	 * @return double calculo da base salarial.
 	 */
 	public double calculaBase(PessoaFisica p){
-		double contribuicaoOficial = 0;
-		double totalRendimentos = p.getTotalRendimentos();
-		
-		if(p.getIdade() <65 && p.getTotalDependentes() <=2){
-			contribuicaoOficial = p.getTotalRendimentos()*0.02;
-		}
-		if(p.getIdade() <65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
-			contribuicaoOficial = p.getTotalRendimentos()*0.035;
-		}
-		if(p.getIdade() <65 && (p.getTotalDependentes() >5 )){
-			contribuicaoOficial = p.getTotalRendimentos()*0.05;
-		}
-		if(p.getIdade() >=65 && (p.getTotalDependentes() <=2 )){
-			contribuicaoOficial = p.getTotalRendimentos()*0.03;
-		}
-		if(p.getIdade() >=65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
-			contribuicaoOficial = p.getTotalRendimentos()*0.045;
-		}
-		if(p.getIdade() >=65 && (p.getTotalDependentes() >=5 )){
-			contribuicaoOficial = p.getTotalRendimentos()*0.06;
-		}
-		double base = totalRendimentos - contribuicaoOficial ;
+		double base =p.getTotalRendimentos() - p.getContribuicaoOficial(); 
 		return base;
 	}
+	
 	/**
-	public double calculaContribuicao(double base){
+	 * 
+	 * @param p
+	 * @return boolean imposto
+	 */
+	public double calculaContribuicaoCompleta(PessoaFisica p){
+		double base = calculaBase(p);
+		double imposto = base;
+		
+		if(p.getIdade() <65 && p.getTotalDependentes() <=2){
+			imposto = p.getTotalRendimentos()*0.02;
+		}
+		if(p.getIdade() <65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
+			imposto = p.getTotalRendimentos()*0.035;
+		}
+		if(p.getIdade() <65 && (p.getTotalDependentes() >5 )){
+			imposto = p.getTotalRendimentos()*0.05;
+		}
+		if(p.getIdade() >=65 && (p.getTotalDependentes() <=2 )){
+			imposto = p.getTotalRendimentos()*0.03;
+		}
+		if(p.getIdade() >=65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
+			imposto = p.getTotalRendimentos()*0.045;
+		}
+		if(p.getIdade() >=65 && (p.getTotalDependentes() >=5 )){
+			imposto = p.getTotalRendimentos()*0.06;
+		}
+		return calculaImposto(imposto);
+	}
+	
+	/**
+	 * 
+	 * @param p
+	 * @return boolean imposto
+	 */
+	public double calculaContribuicaoSimples(PessoaFisica p){
+		double base = calculaBase(p);
+		double imposto = base - (base * 0.05);
+			return calculaImposto(imposto);
+	}
+	
+	/**
+	 * 
+	 * @param base
+	 * @return double imposto
+	 */
+	public double calculaImposto(double base){
 		double valorCalculado = 0;
-		if(base <12000){
+		double valorExcedente = 0;
+		if(base <=12000){
 			valorCalculado = base;
 			return valorCalculado;
 		}
 		if(base >12000 && base <24000){
-			valorCalculado = base * 0.15;
+		    valorExcedente = base - 11999;
+			valorCalculado = valorExcedente * 0.15;
 			return valorCalculado;
 		}
-		if(base >24000){
-			
+		if(base >=24000){
+			valorExcedente = base - 23999;
+			valorCalculado = (base*0.15) +(valorExcedente*0.275);
 		}
-		
-		
-		
-		
-	}*/
+		return valorCalculado;
+	}
+	
+
+	/**
+	 * 
+	 * @return double imposto pago
+	 */
+	public double getImpostoPago() {
+		return impostoPago;
+	}
+
+	/**
+	 * 
+	 * @param impostoPago
+	 */
+	public void setImpostoPago(double impostoPago) {
+		this.impostoPago = impostoPago;
+	}
 
 	@Override
 	public String toString() {
 		String s = super.toString() + "\n" + "Tipo de Declaração: " + getTipoDeclaracao() + "\n"
-				+ "\n" + "Contribuição Previdenciária Oficial: " + getContribuicaoPrevOficial()+ "\n";
+				+"\n" +"Imposto a ser pago: "+getImpostoPago();
 		return s;
 	}
 }

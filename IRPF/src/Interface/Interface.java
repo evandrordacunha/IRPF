@@ -36,7 +36,7 @@ public class Interface extends JFrame {
 	private String nome, cpf;
 	private int idade,totalDependentes;
 	private double contribuicao,rendimentos;
-	private boolean declaracaoSimplificada,declaracaoCompleta;
+	private boolean declaracaoSimplificada,declaracaoCompleta,tipodeclaracao;
 
 	/**
 	 * Launch the application.
@@ -134,10 +134,14 @@ public class Interface extends JFrame {
 				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
 				declaracaoSimplificada = rdSimples.isSelected();
 				declaracaoCompleta = rdCompleta.isSelected();
+				if(declaracaoSimplificada == true){
+					tipodeclaracao = declaracaoSimplificada;
+					//Declaracao declaracao = new Declaracao(nome, cpf, idade, tipodeclaracao, contribuicaoPrevOficial, totalRendimentos, totalDependentes);
+
+				}
 				ControleFormulario control = new ControleFormulario();
 				control.validaTipoDeclaracao(declaracaoSimplificada, declaracaoCompleta);
 				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
-				///Declaracao declaracao = new Declaracao(nome, cpf, idade, tipoDeclaracao, contribuicaoPrevOficial, totalRendimentos, totalDependentes);
 				
 				
 			}

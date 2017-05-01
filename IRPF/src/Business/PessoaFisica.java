@@ -9,9 +9,10 @@ public class PessoaFisica {
 	 * int idade
 	 */
 	private String nome, cpf;
-	private int idade,totalDependentes,totalRendimentos;
+	private int totalDependentes,idade;
+	private double totalRendimentos,contribuicaoOficial;
 
-	public PessoaFisica(String nome, String cpf, int idade, int totalDependentes,int totalRendimentos) {
+	public PessoaFisica(String nome, String cpf, int idade, int totalDependentes,double totalRendimentos,double contribuicaoOficial) {
 		setNome(nome);
 		setCpf(cpf);
 		setIdade(idade);
@@ -117,13 +118,26 @@ public class PessoaFisica {
 	}
 
 	
+	public double getContribuicaoOficial() {
+		return contribuicaoOficial;
+	}
+	public boolean setContribuicaoOficial(double contribuicaoOficial) {
+		if (contribuicaoOficial <= 0) {
+			JOptionPane.showMessageDialog(null, "Valor informado para Contribuição Previdencial Oficial é inválido!");
+			return false;
+		} else {
+			contribuicaoOficial = contribuicaoOficial;
+			return true;
+		}
+	}
 	@Override
 	public String toString() {
 		String s = "Nome: "+getNome() +"\n"
 				+"CPF: " +getCpf() +"\n"
 				+"Idade: "+getIdade()+"\n"
-				+"Total de Rendimentos: "+getTotalRendimentos() +"\n"
-				+"Total de Dependentes: "+getTotalDependentes()+"\n";
+				+"Total de Rendimentos: R$  "+getTotalRendimentos() +"\n"
+				+"Total de Dependentes: R$  "+getTotalDependentes()+"\n"
+				+"Contribuição Previdencial Oficial: R$  " +getContribuicaoOficial();
 		return s;
 		
 	}
