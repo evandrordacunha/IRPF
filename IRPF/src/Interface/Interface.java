@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 
 import Business.ControleFormulario;
 import Business.Declaracao;
+import Business.Imposto;
+import Business.PessoaFisica;
 
 import java.awt.SystemColor;
 import javax.swing.JLabel;
@@ -35,8 +37,9 @@ public class Interface extends JFrame {
 	private JTextField tTotalRendimentos;
 	private String nome, cpf;
 	private int idade,totalDependentes;
-	private double contribuicao,rendimentos;
-	private boolean declaracaoSimplificada,declaracaoCompleta,tipodeclaracao;
+	private double contribuicao,rendimentos,imposto;
+	private boolean declaracaoSimplificada,declaracaoCompleta;
+	private char tipodeclaracao;
 
 	/**
 	 * Launch the application.
@@ -124,28 +127,23 @@ public class Interface extends JFrame {
 		tTotalRendimentos.setBounds(10, 185, 109, 20);
 		tTotalRendimentos.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Enviar Dados");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				nome = tNome.getText().toUpperCase();
-				cpf = tCpf.getText();
-				idade = Integer.parseInt(tIdade.getText());
-				rendimentos = Double.parseDouble(tTotalRendimentos.getText());
-				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
-				declaracaoSimplificada = rdSimples.isSelected();
-				declaracaoCompleta = rdCompleta.isSelected();
-				if(declaracaoSimplificada == true){
-					tipodeclaracao = declaracaoSimplificada;
-					//Declaracao declaracao = new Declaracao(nome, cpf, idade, tipodeclaracao, contribuicaoPrevOficial, totalRendimentos, totalDependentes);
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(333, 32, 325, 520);
+		contentPane.add(textArea);
+		
+		JLabel lbTitulo1 = new JLabel("FORMUL\u00C1RIO DE DECLARA\u00C7\u00C3O:");
+		lbTitulo1.setForeground(new Color(224, 255, 255));
+		lbTitulo1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbTitulo1.setBounds(10, 11, 275, 14);
+		contentPane.add(lbTitulo1);
+		
+		JLabel lblNewLabel_1 = new JLabel("INFORMA\u00C7\u00D5ES:");
+		lblNewLabel_1.setForeground(new Color(224, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(403, 11, 179, 14);
+		contentPane.add(lblNewLabel_1);
 
-				}
-				ControleFormulario control = new ControleFormulario();
-				control.validaTipoDeclaracao(declaracaoSimplificada, declaracaoCompleta);
-				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
-				
-				
-			}
-		});
+		JButton btnNewButton = new JButton("Enviar Dados");
 		btnNewButton.setBackground(new Color(112, 128, 144));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(10, 320, 230, 29);
@@ -165,22 +163,41 @@ public class Interface extends JFrame {
 		panel.add(tTotalRendimentos);
 		panel.add(btnNewButton);
 		
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				nome = tNome.getText().toUpperCase();
+				cpf = tCpf.getText();
+				idade = Integer.parseInt(tIdade.getText());
+				rendimentos = Double.parseDouble(tTotalRendimentos.getText());
+				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
+				declaracaoSimplificada = rdSimples.isSelected();
+				declaracaoCompleta = rdCompleta.isSelected();
+				totalDependentes = comboBox.getItemCount();
+				if(declaracaoSimplificada == true){
+					tipodeclaracao = 'S';
+					PessoaFisica p = new PessoaFisica(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
+					 Imposto imp = new Imposto(p);
+					 double totalpago = imp.calculaContribuicaoSimples(p);
+					Declaracao declaracao  = new Declaracao(nome, cpf, idade, totalDependentes, rendimentos, contribuicao, tipodeclaracao, totalpago);
+					textArea.setText(declaracao.toString());
+				}
+				if(declaracaoCompleta == true){
+					tipodeclaracao = 'C';
+					PessoaFisica p = new PessoaFisica(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
+					 Imposto imp = new Imposto(p);
+					 double totalpago = imp.calculaContribuicaoSimples(p);
+					Declaracao declaracao  = new Declaracao(nome, cpf, idade, totalDependentes, rendimentos, contribuicao, tipodeclaracao, totalpago);
+					textArea.setText(declaracao.toString());
+				}
+				
+				ControleFormulario control = new ControleFormulario();
+				control.validaTipoDeclaracao(declaracaoSimplificada, declaracaoCompleta);
+				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
+				
+				
+			}
+		});
 
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(333, 32, 325, 520);
-		contentPane.add(textArea);
-		
-		JLabel lbTitulo1 = new JLabel("FORMUL\u00C1RIO DE DECLARA\u00C7\u00C3O:");
-		lbTitulo1.setForeground(new Color(224, 255, 255));
-		lbTitulo1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lbTitulo1.setBounds(10, 11, 275, 14);
-		contentPane.add(lbTitulo1);
-		
-		JLabel lblNewLabel_1 = new JLabel("INFORMA\u00C7\u00D5ES:");
-		lblNewLabel_1.setForeground(new Color(224, 255, 255));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(403, 11, 179, 14);
-		contentPane.add(lblNewLabel_1);
 	}
 }
