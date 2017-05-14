@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import Business.ControleFormulario;
 import Business.Declaracao;
-import Business.Imposto;
+
 import Business.PessoaFisica;
 
 import java.awt.SystemColor;
@@ -171,29 +171,20 @@ public class Interface extends JFrame {
 				idade = Integer.parseInt(tIdade.getText());
 				rendimentos = Double.parseDouble(tTotalRendimentos.getText());
 				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
-				declaracaoSimplificada = rdSimples.isSelected();
-				declaracaoCompleta = rdCompleta.isSelected();
-				totalDependentes = comboBox.getItemCount();
-				if(declaracaoSimplificada == true){
+				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
+				PessoaFisica p = new PessoaFisica(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
+				if(rdSimples.isSelected()){
 					tipodeclaracao = 'S';
-					PessoaFisica p = new PessoaFisica(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
-					 Imposto imp = new Imposto(p);
-					 double totalpago = imp.calculaContribuicaoSimples(p);
-					Declaracao declaracao  = new Declaracao(nome, cpf, idade, totalDependentes, rendimentos, contribuicao, tipodeclaracao, totalpago);
-					textArea.setText(declaracao.toString());
+					Declaracao dec = new Declaracao(p, tipodeclaracao);
+					textArea.setText(dec.imprimirDeclaracao(p));
 				}
-				if(declaracaoCompleta == true){
+				if(rdCompleta.isSelected()){
 					tipodeclaracao = 'C';
-					PessoaFisica p = new PessoaFisica(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
-					 Imposto imp = new Imposto(p);
-					 double totalpago = imp.calculaContribuicaoSimples(p);
-					Declaracao declaracao  = new Declaracao(nome, cpf, idade, totalDependentes, rendimentos, contribuicao, tipodeclaracao, totalpago);
-					textArea.setText(declaracao.toString());
+					Declaracao dec = new Declaracao(p, tipodeclaracao);
+					textArea.setText(dec.imprimirDeclaracao(p));
 				}
 				
-				ControleFormulario control = new ControleFormulario();
-				control.validaTipoDeclaracao(declaracaoSimplificada, declaracaoCompleta);
-				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
+
 				
 				
 			}

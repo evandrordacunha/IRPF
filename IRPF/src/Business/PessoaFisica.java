@@ -17,6 +17,8 @@ public class PessoaFisica {
 		setCpf(cpf);
 		setIdade(idade);
 		setTotalRendimentos(totalRendimentos);
+		setContribuicaoOficial(contribuicaoOficial);
+		setTotalDependentes(totalDependentes);
 	}
 	/**
 	 * 
@@ -30,13 +32,11 @@ public class PessoaFisica {
 	 * @param nome
 	 * @return FALSE se não for informado campo nome e TRUE se for.
 	 */
-	public boolean setNome(String nome) {
+	private void setNome(String nome) {
 		if(nome.length() == 0){
 			JOptionPane.showMessageDialog(null, "Você deve preencher o campo nome! ");
-			return false;
 		}else{
 		this.nome = nome;
-		return true;
 		}
 	}
 	/**
@@ -50,7 +50,7 @@ public class PessoaFisica {
 	 * 
 	 * @param cpf
 	 */
-	public boolean setCpf(String cpf) {
+	private boolean setCpf(String cpf) {
 		if(cpf.length() != 11 ){
 			JOptionPane.showInputDialog(null,"Você deve informar os 11 dígitos do seu CPF! ");
 			return false;
@@ -66,7 +66,7 @@ public class PessoaFisica {
 	public int getIdade() {
 		return idade;
 	}
-	public void setIdade(int idade) {
+	private void setIdade(int idade) {
 		this.idade = idade;
 	}
 	/**
@@ -84,12 +84,12 @@ public class PessoaFisica {
 	 *         valor informado é válido.
 	 */
 
-	public boolean setTotalRendimentos(double totalRendimentos) {
+	private boolean setTotalRendimentos(double totalRendimentos) {
 		if (totalRendimentos <= 0) {
 			JOptionPane.showMessageDialog(null, "Total de rendimentos deve ser superior a R$ 0 !");
 			return false;
 		} else {
-			totalRendimentos = totalRendimentos;
+			this.totalRendimentos = totalRendimentos;
 			return true;
 		}
 	}
@@ -107,7 +107,7 @@ public class PessoaFisica {
 	 * @param totalDependentes
 	 * @return False se valor for negativo e TRUE se valor >=0
 	 */
-	public boolean setTotalDependentes(int totalDependentes) {
+	private boolean setTotalDependentes(int totalDependentes) {
 		if (totalDependentes < 0) {
 			JOptionPane.showMessageDialog(null, "Valor informado para Total de Dependentes é inválido!");
 			return false;
@@ -121,12 +121,12 @@ public class PessoaFisica {
 	public double getContribuicaoOficial() {
 		return contribuicaoOficial;
 	}
-	public boolean setContribuicaoOficial(double contribuicaoOficial) {
+	private boolean setContribuicaoOficial(double contribuicaoOficial) {
 		if (contribuicaoOficial <= 0) {
 			JOptionPane.showMessageDialog(null, "Valor informado para Contribuição Previdencial Oficial é inválido!");
 			return false;
 		} else {
-			contribuicaoOficial = contribuicaoOficial;
+			this.contribuicaoOficial = contribuicaoOficial;
 			return true;
 		}
 	}
@@ -135,9 +135,9 @@ public class PessoaFisica {
 		String s = "Nome: "+getNome() +"\n"
 				+"CPF: " +getCpf() +"\n"
 				+"Idade: "+getIdade()+"\n"
+				+"Total de Dependentes: "+getTotalDependentes()+"\n"
 				+"Total de Rendimentos: R$  "+getTotalRendimentos() +"\n"
-				+"Total de Dependentes: R$  "+getTotalDependentes()+"\n"
-				+"Contribuição Previdencial Oficial: R$  " +getContribuicaoOficial();
+				+"Contribuição Previdencial Oficial: R$  " +getContribuicaoOficial()+"\n";
 		return s;
 		
 	}
