@@ -1,4 +1,6 @@
 package Business;
+import java.text.NumberFormat;
+
 import javax.swing.JOptionPane;
 
 public class Declaracao{
@@ -50,8 +52,7 @@ public class Declaracao{
 	 * @return double calculo da base salarial.
 	 */
 	public double calculaBase(PessoaFisica p){
-		double base =p.getTotalRendimentos() - p.getContribuicaoOficial(); 
-		return base;
+		return p.getTotalRendimentos() - p.getContribuicaoOficial(); 
 	}
 	
 	/**
@@ -61,27 +62,28 @@ public class Declaracao{
 	 */
 	public double calculaContribuicaoCompleta(PessoaFisica p){
 		double base = calculaBase(p);
-		double imposto = base;
+		double impostoBase = base;
 		
 		if(p.getIdade() <65 && p.getTotalDependentes() <=2){
-			imposto = p.getTotalRendimentos()*0.02;
+			impostoBase = impostoBase -p.getTotalRendimentos()*0.02;
 		}
-		if(p.getIdade() <65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
-			imposto = p.getTotalRendimentos()*0.035;
+		if(p.getIdade() <65 && (p.getTotalDependentes() >=3 && p.getTotalDependentes() <=5  )){
+			impostoBase = impostoBase - p.getTotalRendimentos()*0.035;
 		}
 		if(p.getIdade() <65 && (p.getTotalDependentes() >5 )){
-			imposto = p.getTotalRendimentos()*0.05;
+			impostoBase = impostoBase -p.getTotalRendimentos()*0.05;
 		}
 		if(p.getIdade() >=65 && (p.getTotalDependentes() <=2 )){
-			imposto = p.getTotalRendimentos()*0.03;
+			impostoBase = impostoBase -p.getTotalRendimentos()*0.03;
 		}
-		if(p.getIdade() >=65 && (p.getTotalDependentes() >=3 ||p.getTotalDependentes() <=5  )){
-			imposto = p.getTotalRendimentos()*0.045;
+		if(p.getIdade() >=65 && (p.getTotalDependentes() >=3 && p.getTotalDependentes() <=5  )){
+			impostoBase =impostoBase - p.getTotalRendimentos()*0.045;
 		}
 		if(p.getIdade() >=65 && (p.getTotalDependentes() >=5 )){
-			imposto = p.getTotalRendimentos()*0.06;
+			impostoBase =impostoBase - p.getTotalRendimentos()*0.06;
 		}
-		return calculaImposto(imposto);
+		System.out.println(impostoBase);
+		return calculaImposto(impostoBase);
 	}
 	
 	/**
@@ -91,8 +93,8 @@ public class Declaracao{
 	 */
 	public double calculaContribuicaoSimples(PessoaFisica p){
 		double base = calculaBase(p);
-		double imposto = base - (base * 0.05);
-			return calculaImposto(imposto);
+		double impostoBase = base - (base * 0.05);
+			return calculaImposto(impostoBase);
 	}
 	
 	/**
@@ -102,19 +104,14 @@ public class Declaracao{
 	 */
 	public double calculaImposto(double base){
 		double valorCalculado = 0;
-		double valorExcedente = 0;
 		if(base <=12000){
-			valorCalculado = base;
-			return valorCalculado;
+			valorCalculado = 0;
 		}
 		if(base >12000 && base <24000){
-		    valorExcedente = base - 11999;
-			valorCalculado = valorExcedente * 0.15;
-			return valorCalculado;
+			valorCalculado =  (base - 12000)*0.15;
 		}
 		if(base >=24000){
-			valorExcedente = base - 23999;
-			valorCalculado = (base*0.15) +(valorExcedente*0.275);
+			valorCalculado = ((base - 12000)*0.15) +((base - 24000)*0.275);
 		}
 		return valorCalculado;
 	}
@@ -128,7 +125,7 @@ public class Declaracao{
 	}
 	
 	public boolean validaTipoDeclaracao(boolean declaracaoSimplificada,boolean declaracaoCompleta){
-		if((declaracaoSimplificada = false && declaracaoCompleta == false) 
+		if((declaracaoSimplificada == false && declaracaoCompleta == false) 
 				|| declaracaoSimplificada == true && declaracaoCompleta == true){
 			JOptionPane.showMessageDialog(null, "Tipo de declaração deve ser selecionado e único!");
 		return false;
@@ -152,18 +149,11 @@ public class Declaracao{
 				+"CPF:  "+p.getCpf() +"\n"
 				+"Idade: "+p.getIdade() +"\n"
 				+"Total de Dependentes: "+p.getTotalDependentes()+"\n"
-				+"Total de Rendimentos R$:  "+p.getTotalRendimentos() +"\n"
-				+"Contribuição Previdencial Oficial R$:  "+p.getContribuicaoOficial()
+				+"Total de Rendimentos "+NumberFormat.getCurrencyInstance().format(p.getTotalRendimentos()) +"\n"
+				+"Contribuição Previdencial Oficial "+NumberFormat.getCurrencyInstance().format(p.getContribuicaoOficial()) +"\n"
+				+"IRPF: "+NumberFormat.getCurrencyInstance().format(getImpostoPago())+"\n"
+				
 		+"\n";
-		
-		if(getTipoDeclaracao() =='S' || getTipoDeclaracao() =='s'){
-			valorPagar = calculaContribuicaoSimples(p);
-			s = s+"Declarado R$:  "+valorPagar;
-		}
-		if(getTipoDeclaracao() =='C' || getTipoDeclaracao() =='c'){
-			valorPagar = calculaContribuicaoCompleta(p);
-			s = s+"Declarado R$:  "+valorPagar;
-		}
 		return s;
-	}
+		}
 }

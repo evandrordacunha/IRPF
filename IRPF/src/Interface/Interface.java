@@ -37,7 +37,7 @@ public class Interface extends JFrame {
 	private JTextField tTotalRendimentos;
 	private String nome, cpf;
 	private int idade,totalDependentes;
-	private double contribuicao,rendimentos,imposto;
+	private double contribuicao,rendimentos,imposto,base,IR;
 	private boolean declaracaoSimplificada,declaracaoCompleta;
 	private char tipodeclaracao;
 
@@ -176,11 +176,13 @@ public class Interface extends JFrame {
 				if(rdSimples.isSelected()){
 					tipodeclaracao = 'S';
 					Declaracao dec = new Declaracao(p, tipodeclaracao);
+					dec.setImpostoPago(dec.calculaContribuicaoSimples(p));
 					textArea.setText(dec.imprimirDeclaracao(p));
 				}
 				if(rdCompleta.isSelected()){
 					tipodeclaracao = 'C';
 					Declaracao dec = new Declaracao(p, tipodeclaracao);
+					dec.setImpostoPago(dec.calculaContribuicaoCompleta(p));
 					textArea.setText(dec.imprimirDeclaracao(p));
 				}
 				
