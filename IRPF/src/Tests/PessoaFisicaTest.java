@@ -6,14 +6,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Business.PessoaFisica;
+import Business.Contribuinte;
 
 public class PessoaFisicaTest {
 	
-	PessoaFisica p; 
+	Contribuinte p; 
 	@Before 
 	public void inicializa(){
-		p = new PessoaFisica("Pedro", "00526547852", 36, 2, 29000, 1200);
+		p = new Contribuinte("Pedro", "00526547852", 36, 2, 29000, 1200);
 	}
 
 	@Test

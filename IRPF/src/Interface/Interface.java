@@ -7,10 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Business.ControleFormulario;
+import Business.Facade;
 import Business.Declaracao;
 
-import Business.PessoaFisica;
+import Business.Contribuinte;
 
 import java.awt.SystemColor;
 import javax.swing.JLabel;
@@ -100,7 +100,7 @@ public class Interface extends JFrame {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(10, 272, 94, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5 ", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
 		
 		JLabel lbContribuicaoOficial = new JLabel("Contrib.Trib.Oficial:");
 		lbContribuicaoOficial.setBounds(136, 122, 118, 14);
@@ -172,7 +172,7 @@ public class Interface extends JFrame {
 				rendimentos = Double.parseDouble(tTotalRendimentos.getText());
 				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
 				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
-				PessoaFisica p = new PessoaFisica(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
+				Contribuinte p = new Contribuinte(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
 				if(rdSimples.isSelected()){
 					tipodeclaracao = 'S';
 					Declaracao dec = new Declaracao(p, tipodeclaracao);
@@ -185,10 +185,6 @@ public class Interface extends JFrame {
 					dec.setImpostoPago(dec.calculaContribuicaoCompleta(p));
 					textArea.setText(dec.imprimirDeclaracao(p));
 				}
-				
-
-				
-				
 			}
 		});
 

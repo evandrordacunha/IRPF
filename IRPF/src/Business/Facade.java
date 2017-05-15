@@ -1,9 +1,11 @@
 package Business;
 
+import java.awt.Checkbox;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class ControleFormulario {
+public class Facade {
 	
  
 	
@@ -20,6 +22,11 @@ public class ControleFormulario {
 			declaracaoSimplificada = false;
 		}
 		return true;
+	}
+	
+	public void validaTipoDeclaracao(Checkbox check){
+		
+		
 	}
 	
 }
