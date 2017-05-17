@@ -7,20 +7,20 @@ import javax.swing.JOptionPane;
 public class Declaracao {
 
 	/**
-	 * String tipoDeclaracao double contribuicaoPrevOficial,totalRendimentos
+	 * Atributos
 	 */
 	private char tipoDeclaracao;
 	private double impostoPago;
-
+	Contribuinte contribuinte;
 	/**
 	 * 
-	 * @param p
+	 * @param contribuinte
 	 * @param tipo
 	 */
-	public Declaracao(Contribuinte p, char tipo) {
+	public Declaracao(Contribuinte contribuinte, char tipo) {
+		this.contribuinte = contribuinte;
 		setTipoDeclaracao(tipo);
 	}
-
 	/**
 	 * 
 	 * @return tipoDeclaracao
@@ -28,7 +28,6 @@ public class Declaracao {
 	public char getTipoDeclaracao() {
 		return tipoDeclaracao;
 	}
-
 	/**
 	 * 
 	 * @param tipoDeclaracao
@@ -45,8 +44,8 @@ public class Declaracao {
 	 * @param p
 	 * @return double calculo da base salarial.
 	 */
-	public double calculaBase(Contribuinte p) {
-		return p.getTotalRendimentos() - p.getContribuicaoOficial();
+	public double calculaBase(Contribuinte contribuinte) {
+		return contribuinte.getTotalRendimentos() - contribuinte.getContribuicaoOficial();
 	}
 
 	/**
@@ -54,29 +53,28 @@ public class Declaracao {
 	 * @param p
 	 * @return boolean imposto
 	 */
-	public double calculaContribuicaoCompleta(Contribuinte p) {
-		double base = calculaBase(p);
+	public double calculaContribuicaoCompleta(Contribuinte contribuinte) {
+		double base = calculaBase(contribuinte);
 		double impostoBase = base;
 
-		if (p.getIdade() < 65 && p.getTotalDependentes() <= 2) {
-			impostoBase = impostoBase - p.getTotalRendimentos() * 0.02;
+		if (contribuinte.getIdade() < 65 && contribuinte.getTotalDependentes() <= 2) {
+			impostoBase = impostoBase - contribuinte.getTotalRendimentos() * 0.02;
 		}
-		if (p.getIdade() < 65 && (p.getTotalDependentes() >= 3 && p.getTotalDependentes() <= 5)) {
-			impostoBase = impostoBase - p.getTotalRendimentos() * 0.035;
+		if (contribuinte.getIdade() < 65 && (contribuinte.getTotalDependentes() >= 3 && contribuinte.getTotalDependentes() <= 5)) {
+			impostoBase = impostoBase - contribuinte.getTotalRendimentos() * 0.035;
 		}
-		if (p.getIdade() < 65 && (p.getTotalDependentes() > 5)) {
-			impostoBase = impostoBase - p.getTotalRendimentos() * 0.05;
+		if (contribuinte.getIdade() < 65 && (contribuinte.getTotalDependentes() > 5)) {
+			impostoBase = impostoBase - contribuinte.getTotalRendimentos() * 0.05;
 		}
-		if (p.getIdade() >= 65 && (p.getTotalDependentes() <= 2)) {
-			impostoBase = impostoBase - p.getTotalRendimentos() * 0.03;
+		if (contribuinte.getIdade() >= 65 && (contribuinte.getTotalDependentes() <= 2)) {
+			impostoBase = impostoBase - contribuinte.getTotalRendimentos() * 0.03;
 		}
-		if (p.getIdade() >= 65 && (p.getTotalDependentes() >= 3 && p.getTotalDependentes() <= 5)) {
-			impostoBase = impostoBase - p.getTotalRendimentos() * 0.045;
+		if (contribuinte.getIdade() >= 65 && (contribuinte.getTotalDependentes() >= 3 && contribuinte.getTotalDependentes() <= 5)) {
+			impostoBase = impostoBase - contribuinte.getTotalRendimentos() * 0.045;
 		}
-		if (p.getIdade() >= 65 && (p.getTotalDependentes() >= 5)) {
-			impostoBase = impostoBase - p.getTotalRendimentos() * 0.06;
+		if (contribuinte.getIdade() >= 65 && (contribuinte.getTotalDependentes() >= 5)) {
+			impostoBase = impostoBase - contribuinte.getTotalRendimentos() * 0.06;
 		}
-		System.out.println(impostoBase);
 		return calculaImposto(impostoBase);
 	}
 
@@ -85,8 +83,8 @@ public class Declaracao {
 	 * @param p
 	 * @return boolean imposto
 	 */
-	public double calculaContribuicaoSimples(Contribuinte p) {
-		double base = calculaBase(p);
+	public double calculaContribuicaoSimples(Contribuinte contribuinte) {
+		double base = calculaBase(contribuinte);
 		double impostoBase = base - (base * 0.05);
 		return calculaImposto(impostoBase);
 	}
@@ -96,7 +94,7 @@ public class Declaracao {
 	 * @param base
 	 * @return double imposto
 	 */
-	public double calculaImposto(double base) {
+	private double calculaImposto(double base) {
 		double valorCalculado = 0;
 		if (base <= 12000) {
 			valorCalculado = 0;
@@ -132,16 +130,21 @@ public class Declaracao {
 		}
 		return true;
 	}
+	
 
-	public String imprimirDeclaracao(Contribuinte p) {
+
+	public Contribuinte getContribuinte() {
+		return contribuinte;
+	}
+	public String imprimirDeclaracao(Contribuinte contribuinte) {
 		double valorPagar = 0;
 		String s = "";
 		s = "DECLARAÇÃO DE IMPOSTO DE RENDA DE P.FÍSICA:  " + "\n" + "\n" + "Tipo de Declaração: " + getTipoDeclaracao()
-				+ "\n" + "Declarante:  " + p.getNome() + "\n" + "CPF:  " + p.getCpf() + "\n" + "Idade: " + p.getIdade()
-				+ "\n" + "Total de Dependentes: " + p.getTotalDependentes() + "\n" + "Total de Rendimentos "
-				+ NumberFormat.getCurrencyInstance().format(p.getTotalRendimentos()) + "\n"
+				+ "\n" + "Declarante:  " + contribuinte.getNome() + "\n" + "CPF:  " + contribuinte.getCpf() + "\n" + "Idade: " + contribuinte.getIdade()
+				+ "\n" + "Total de Dependentes: " + contribuinte.getTotalDependentes() + "\n" + "Total de Rendimentos "
+				+ NumberFormat.getCurrencyInstance().format(contribuinte.getTotalRendimentos()) + "\n"
 				+ "Contribuição Previdencial Oficial "
-				+ NumberFormat.getCurrencyInstance().format(p.getContribuicaoOficial()) + "\n" + "IRPF: "
+				+ NumberFormat.getCurrencyInstance().format(contribuinte.getContribuicaoOficial()) + "\n" + "IRPF: "
 				+ NumberFormat.getCurrencyInstance().format(getImpostoPago()) + "\n"
 
 				+ "\n";

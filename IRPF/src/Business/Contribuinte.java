@@ -34,7 +34,7 @@ public class Contribuinte {
 	 * @param nome
 	 * @return FALSE se não for informado campo nome e TRUE se for.
 	 */
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		if (nome.length() == 0) {
 			JOptionPane.showMessageDialog(null, "Você deve preencher o campo nome! ");
 		} else {
@@ -54,7 +54,7 @@ public class Contribuinte {
 	 * 
 	 * @param cpf
 	 */
-	private void setCpf(String cpf) {
+	public void setCpf(String cpf) {
 		if (cpf.length() != 11) {
 			JOptionPane.showMessageDialog(null, "Você deve informar os 11 dígitos do seu CPF! ");
 		} else {
@@ -70,7 +70,7 @@ public class Contribuinte {
 		return idade;
 	}
 
-	private void setIdade(int idade) {
+	public void setIdade(int idade) {
 		this.idade = idade;
 	}
 
@@ -89,7 +89,7 @@ public class Contribuinte {
 	 *         valor informado é válido.
 	 */
 
-	private void setTotalRendimentos(double totalRendimentos) {
+	public void setTotalRendimentos(double totalRendimentos) {
 		if (totalRendimentos <= 0) {
 			JOptionPane.showMessageDialog(null, "Total de rendimentos deve ser superior a R$ 0 !");
 		} else {
@@ -110,7 +110,7 @@ public class Contribuinte {
 	 * @param totalDependentes
 	 * @return False se valor for negativo e TRUE se valor >=0
 	 */
-	private void setTotalDependentes(int totalDependentes) {
+	public void setTotalDependentes(int totalDependentes) {
 		if (totalDependentes < 0) {
 			JOptionPane.showMessageDialog(null, "Valor informado para Total de Dependentes é inválido!");
 		} else {
@@ -122,7 +122,7 @@ public class Contribuinte {
 		return contribuicaoOficial;
 	}
 
-	private void setContribuicaoOficial(double contribuicaoOficial) {
+	public void setContribuicaoOficial(double contribuicaoOficial) {
 		if (contribuicaoOficial <= 0) {
 			JOptionPane.showMessageDialog(null, "Valor informado para Contribuição Previdencial Oficial é inválido!");
 		} else {

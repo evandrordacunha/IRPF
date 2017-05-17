@@ -1,4 +1,4 @@
-package Interface;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Business.Facade;
+import Business.DeclaracaoFacade;
 import Business.Declaracao;
 
 import Business.Contribuinte;
@@ -35,11 +35,8 @@ public class Interface extends JFrame {
 	private JTextField tIdade;
 	private JTextField tContribuicaoOficial;
 	private JTextField tTotalRendimentos;
-	private String nome, cpf;
-	private int idade,totalDependentes;
-	private double contribuicao,rendimentos,imposto,base,IR;
-	private boolean declaracaoSimplificada,declaracaoCompleta;
-	private char tipodeclaracao;
+	Contribuinte contribuinte;
+	Declaracao declaracao;
 
 	/**
 	 * Launch the application.
@@ -98,9 +95,9 @@ public class Interface extends JFrame {
 		JLabel lbNumeroDependentes = new JLabel("Qtd. Dependentes:");
 		lbNumeroDependentes.setBounds(10, 247, 116, 14);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 272, 94, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5 ", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
+		JComboBox tDependentes = new JComboBox();
+		tDependentes.setBounds(10, 272, 94, 20);
+		tDependentes.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5 ", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
 		
 		JLabel lbContribuicaoOficial = new JLabel("Contrib.Trib.Oficial:");
 		lbContribuicaoOficial.setBounds(136, 122, 118, 14);
@@ -155,36 +152,20 @@ public class Interface extends JFrame {
 		panel.add(lbIdade);
 		panel.add(lbNumeroDependentes);
 		panel.add(tIdade);
-		panel.add(comboBox);
+		panel.add(tDependentes);
 		panel.add(lbContribuicaoOficial);
 		panel.add(lblNewLabel);
 		panel.add(tContribuicaoOficial);
 		panel.add(lbTotalRendimentos);
 		panel.add(tTotalRendimentos);
 		panel.add(btnNewButton);
-		
 		btnNewButton.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent arg0) {
-				nome = tNome.getText().toUpperCase();
-				cpf = tCpf.getText();
-				idade = Integer.parseInt(tIdade.getText());
-				rendimentos = Double.parseDouble(tTotalRendimentos.getText());
-				contribuicao = Double.parseDouble(tContribuicaoOficial.getText());
-				totalDependentes = Integer.parseInt(comboBox.getSelectedItem().toString());
-				Contribuinte p = new Contribuinte(nome, cpf, idade, totalDependentes, rendimentos, contribuicao);
-				if(rdSimples.isSelected()){
-					tipodeclaracao = 'S';
-					Declaracao dec = new Declaracao(p, tipodeclaracao);
-					dec.setImpostoPago(dec.calculaContribuicaoSimples(p));
-					textArea.setText(dec.imprimirDeclaracao(p));
-				}
-				if(rdCompleta.isSelected()){
-					tipodeclaracao = 'C';
-					Declaracao dec = new Declaracao(p, tipodeclaracao);
-					dec.setImpostoPago(dec.calculaContribuicaoCompleta(p));
-					textArea.setText(dec.imprimirDeclaracao(p));
-				}
+				//Criando contribuinte
+				 DeclaracaoFacade dF = new DeclaracaoFacade();
+				 contribuinte = dF.instanciarContribuinte(tNome, tCpf, tIdade, tContribuicaoOficial, tTotalRendimentos, tDependentes);
+				 //Criando declaração
+				  declaracao = dF.instanciarDeclaracao(contribuinte,rdSimples, rdCompleta, textArea); 
 			}
 		});
 
