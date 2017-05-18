@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,16 +10,17 @@ import Business.DeclaracaoFacade;
 import Business.Declaracao;
 
 import Business.Contribuinte;
+import Business.Controle;
 
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JRadioButton;
@@ -65,75 +65,77 @@ public class Interface extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.controlHighlight);
 		panel.setBounds(10, 36, 264, 516);
 		contentPane.add(panel);
-		
+
 		JLabel lbNome = new JLabel("Nome do Contribuinte:");
 		lbNome.setBounds(10, 23, 230, 14);
-		
+
 		tNome = new JTextField();
 		tNome.setBounds(10, 48, 230, 20);
 		tNome.setColumns(10);
-		
+
 		JLabel lbCpf = new JLabel("CPF:");
 		lbCpf.setBounds(10, 76, 230, 14);
-		
+
 		tCpf = new JTextField();
 		tCpf.setBounds(10, 94, 230, 20);
 		tCpf.setColumns(10);
-		
+
 		JLabel lbIdade = new JLabel("Idade:");
 		lbIdade.setBounds(10, 122, 46, 14);
-		
+
 		tIdade = new JTextField();
 		tIdade.setBounds(10, 138, 109, 20);
 		tIdade.setColumns(10);
-		
+
 		JLabel lbNumeroDependentes = new JLabel("Qtd. Dependentes:");
 		lbNumeroDependentes.setBounds(10, 247, 116, 14);
-		
+
 		JComboBox tDependentes = new JComboBox();
 		tDependentes.setBounds(10, 272, 94, 20);
-		tDependentes.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5 ", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"}));
-		
+		tDependentes.setModel(new DefaultComboBoxModel(
+				new String[] { "0", "1", "2", "3", "4", "5 ", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
+						"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+
 		JLabel lbContribuicaoOficial = new JLabel("Contrib.Trib.Oficial:");
 		lbContribuicaoOficial.setBounds(136, 122, 118, 14);
-		
+
 		tContribuicaoOficial = new JTextField();
 		tContribuicaoOficial.setBounds(136, 138, 104, 20);
 		tContribuicaoOficial.setColumns(10);
-		
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(111, 178, 46, 14);
-		
+
 		JLabel lbTotalRendimentos = new JLabel("Total Rendimentos:");
 		lbTotalRendimentos.setBounds(10, 169, 118, 14);
-		
+
 		JRadioButton rdSimples = new JRadioButton("Simplificada");
 		rdSimples.setBounds(10, 212, 109, 23);
 		panel.add(rdSimples);
-		
+
 		JRadioButton rdCompleta = new JRadioButton("Completa");
 		rdCompleta.setBounds(131, 212, 109, 23);
 		panel.add(rdCompleta);
-		
+
 		tTotalRendimentos = new JTextField();
 		tTotalRendimentos.setBounds(10, 185, 109, 20);
 		tTotalRendimentos.setColumns(10);
-		
+
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(333, 32, 325, 520);
 		contentPane.add(textArea);
-		
+
 		JLabel lbTitulo1 = new JLabel("FORMUL\u00C1RIO DE DECLARA\u00C7\u00C3O:");
 		lbTitulo1.setForeground(new Color(224, 255, 255));
 		lbTitulo1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lbTitulo1.setBounds(10, 11, 275, 14);
 		contentPane.add(lbTitulo1);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("INFORMA\u00C7\u00D5ES:");
 		lblNewLabel_1.setForeground(new Color(224, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -161,13 +163,22 @@ public class Interface extends JFrame {
 		panel.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//Criando contribuinte
-				 DeclaracaoFacade dF = new DeclaracaoFacade();
-				 contribuinte = dF.instanciarContribuinte(tNome, tCpf, tIdade, tContribuicaoOficial, tTotalRendimentos, tDependentes);
-				 //Criando declaração
-				  declaracao = dF.instanciarDeclaracao(contribuinte,rdSimples, rdCompleta, textArea); 
+				// Classe controle que valida campos no formulário
+				Controle controle = new Controle(tNome, tCpf, tIdade, tContribuicaoOficial, tTotalRendimentos,
+						rdSimples, rdCompleta);
+				controle.validaCampos();
+				// Criando contribuinte
+				DeclaracaoFacade dF = new DeclaracaoFacade();
+				if (controle.validaCampos() == true) {
+					contribuinte = dF.instanciarContribuinte(tNome, tCpf, tIdade, tContribuicaoOficial,
+							tTotalRendimentos, tDependentes);
+					// Criando declaração
+					declaracao = dF.instanciarDeclaracao(contribuinte, rdSimples, rdCompleta, textArea);
+				} else {
+					JOptionPane.showMessageDialog(null, "Confira os dados digitados!", "Valor informado inválido!",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
-
 	}
 }

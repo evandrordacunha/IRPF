@@ -1,28 +1,19 @@
 package Business;
 
-import java.awt.Checkbox;
-
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 import Persistence.DeclaracoesCadastradas;
 
 public class DeclaracaoFacade {
-	
-	/**
-	 * Variáveis
-	 */
-	private Contribuinte contribuinte = null;
+
 	private Declaracao declaracao = null;
 	private String nome, cpf;
 	private int idade, totalDependentes;
-	private double contribuicao, rendimentos, imposto, base, IR;
-	private boolean declaracaoSimplificada, declaracaoCompleta;
+	private double contribuicao, rendimentos;
 	private char tipodeclaracao;
-	private DeclaracoesCadastradas declaracoes; 
+	private DeclaracoesCadastradas declaracoes;
 
 	/**
 	 * Construtor
@@ -42,7 +33,7 @@ public class DeclaracaoFacade {
 	 * @return Contribuinte contribuinte
 	 */
 	public Contribuinte instanciarContribuinte(JTextField tNome, JTextField tCpf, JTextField tIdade,
-			JTextField tContribuicaoOficial, JTextField tTotalRendimentos, JComboBox tDependentes) {
+			JTextField tContribuicaoOficial, JTextField tTotalRendimentos, JComboBox<Declaracao> tDependentes) {
 		nome = tNome.getText().toUpperCase();
 		cpf = tCpf.getText();
 		idade = Integer.parseInt(tIdade.getText());
@@ -66,17 +57,18 @@ public class DeclaracaoFacade {
 		if (rdSimples.isSelected()) {
 			tipodeclaracao = 'S';
 			declaracao = new Declaracao(contribuinte, tipodeclaracao);
-			declaracoes.incluirDeclaracao(declaracao);
 			declaracao.setImpostoPago(declaracao.calculaContribuicaoSimples(contribuinte));
+			declaracoes.incluirDeclaracao(declaracao);
 			textArea.setText(declaracao.imprimirDeclaracao(contribuinte));
 		}
 		if (rdCompleta.isSelected()) {
 			tipodeclaracao = 'C';
 			declaracao = new Declaracao(contribuinte, tipodeclaracao);
-			declaracoes.incluirDeclaracao(declaracao);
 			declaracao.setImpostoPago(declaracao.calculaContribuicaoCompleta(contribuinte));
+			declaracoes.incluirDeclaracao(declaracao);
 			textArea.setText(declaracao.imprimirDeclaracao(contribuinte));
 		}
 		return declaracao;
 	}
+
 }

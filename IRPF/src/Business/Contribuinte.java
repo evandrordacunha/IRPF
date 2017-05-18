@@ -1,16 +1,24 @@
 package Business;
 
-import javax.swing.JOptionPane;
-
 public class Contribuinte {
 
 	/**
-	 * String nome, cpf int idade
+	 * Atributos
 	 */
 	private String nome, cpf;
 	private int totalDependentes, idade;
 	private double totalRendimentos, contribuicaoOficial;
 
+	/**
+	 * Construtor
+	 * 
+	 * @param nome
+	 * @param cpf
+	 * @param idade
+	 * @param totalDependentes
+	 * @param totalRendimentos
+	 * @param contribuicaoOficial
+	 */
 	public Contribuinte(String nome, String cpf, int idade, int totalDependentes, double totalRendimentos,
 			double contribuicaoOficial) {
 		setNome(nome);
@@ -32,14 +40,9 @@ public class Contribuinte {
 	/**
 	 * 
 	 * @param nome
-	 * @return FALSE se não for informado campo nome e TRUE se for.
 	 */
 	public void setNome(String nome) {
-		if (nome.length() == 0) {
-			JOptionPane.showMessageDialog(null, "Você deve preencher o campo nome! ");
-		} else {
-			this.nome = nome;
-		}
+		this.nome = nome;
 	}
 
 	/**
@@ -55,11 +58,7 @@ public class Contribuinte {
 	 * @param cpf
 	 */
 	public void setCpf(String cpf) {
-		if (cpf.length() != 11) {
-			JOptionPane.showMessageDialog(null, "Você deve informar os 11 dígitos do seu CPF! ");
-		} else {
-			this.cpf = cpf;
-		}
+		this.cpf = cpf;
 	}
 
 	/**
@@ -70,6 +69,10 @@ public class Contribuinte {
 		return idade;
 	}
 
+	/**
+	 * 
+	 * @param idade
+	 */
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
@@ -85,16 +88,9 @@ public class Contribuinte {
 	/**
 	 * 
 	 * @param totalRendimentos
-	 * @return FALSE se total de rendimentos informado for <= 0 ou TRUE se o
-	 *         valor informado é válido.
 	 */
-
 	public void setTotalRendimentos(double totalRendimentos) {
-		if (totalRendimentos <= 0) {
-			JOptionPane.showMessageDialog(null, "Total de rendimentos deve ser superior a R$ 0 !");
-		} else {
-			this.totalRendimentos = totalRendimentos;
-		}
+		this.totalRendimentos = totalRendimentos;
 	}
 
 	/**
@@ -108,35 +104,37 @@ public class Contribuinte {
 	/**
 	 * 
 	 * @param totalDependentes
-	 * @return False se valor for negativo e TRUE se valor >=0
 	 */
 	public void setTotalDependentes(int totalDependentes) {
-		if (totalDependentes < 0) {
-			JOptionPane.showMessageDialog(null, "Valor informado para Total de Dependentes é inválido!");
-		} else {
-			this.totalDependentes = totalDependentes;
-		}
+		this.totalDependentes = totalDependentes;
+
 	}
 
+	/**
+	 * 
+	 * @return contribuicaoOficial
+	 */
 	public double getContribuicaoOficial() {
 		return contribuicaoOficial;
 	}
 
+	/**
+	 * 
+	 * @param contribuicaoOficial
+	 */
 	public void setContribuicaoOficial(double contribuicaoOficial) {
-		if (contribuicaoOficial <= 0) {
-			JOptionPane.showMessageDialog(null, "Valor informado para Contribuição Previdencial Oficial é inválido!");
-		} else {
-			this.contribuicaoOficial = contribuicaoOficial;
-		}
+		this.contribuicaoOficial = contribuicaoOficial;
 	}
 
+	/**
+	 * @return dadosContribuinte
+	 */
 	@Override
 	public String toString() {
-		String s = "Nome: " + getNome() + "\n" + "CPF: " + getCpf() + "\n" + "Idade: " + getIdade() + "\n"
-				+ "Total de Dependentes: " + getTotalDependentes() + "\n" + "Total de Rendimentos: R$  "
+		String dadosContribuinte = "Nome: " + getNome() + "\n" + "CPF: " + getCpf() + "\n" + "Idade: " + getIdade()
+				+ "\n" + "Total de Dependentes: " + getTotalDependentes() + "\n" + "Total de Rendimentos: R$  "
 				+ getTotalRendimentos() + "\n" + "Contribuição Previdencial Oficial: R$  " + getContribuicaoOficial()
 				+ "\n";
-		return s;
-
+		return dadosContribuinte;
 	}
 }
