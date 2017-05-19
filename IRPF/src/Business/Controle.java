@@ -65,7 +65,5 @@ public class Controle {
 		} else {
 			return true;
 		}
-
 	}
-
 }

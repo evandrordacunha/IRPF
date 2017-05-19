@@ -70,5 +70,4 @@ public class DeclaracaoFacade {
 		}
 		return declaracao;
 	}
-
 }

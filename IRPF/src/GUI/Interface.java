@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 
 import Business.DeclaracaoFacade;
 import Business.Declaracao;
-
 import Business.Contribuinte;
 import Business.Controle;
 

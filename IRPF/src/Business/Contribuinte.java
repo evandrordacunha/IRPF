@@ -125,16 +125,4 @@ public class Contribuinte {
 	public void setContribuicaoOficial(double contribuicaoOficial) {
 		this.contribuicaoOficial = contribuicaoOficial;
 	}
-
-	/**
-	 * @return dadosContribuinte
-	 */
-	@Override
-	public String toString() {
-		String dadosContribuinte = "Nome: " + getNome() + "\n" + "CPF: " + getCpf() + "\n" + "Idade: " + getIdade()
-				+ "\n" + "Total de Dependentes: " + getTotalDependentes() + "\n" + "Total de Rendimentos: R$  "
-				+ getTotalRendimentos() + "\n" + "Contribuição Previdencial Oficial: R$  " + getContribuicaoOficial()
-				+ "\n";
-		return dadosContribuinte;
-	}
 }

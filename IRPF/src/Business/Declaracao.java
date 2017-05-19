@@ -10,15 +10,15 @@ public class Declaracao {
 	private char tipoDeclaracao;
 	private double impostoPago;
 	/**
-	 * 	Trata faixa com isenção até R$ 12000,00 e 
-	 *	será usado para cálculo das faixas entre (R$ 12001,00 e R$ 24.000,00) c/ 15%
+	 * Trata faixa com isenção até R$ 12000,00 e será usado para cálculo das
+	 * faixas entre (R$ 12001,00 e R$ 24.000,00) c/ 15%
 	 */
-	private static double FAIXA_1 = 12000;  
+	private static double FAIXA_1 = 12000;
 	/**
-	 *Trata as faixas com ganho acima de R$ 24.000,00
+	 * Trata as faixas com ganho acima de R$ 24.000,00
 	 * 
 	 */
-	private static double FAIXA_2 = 24000;  
+	private static double FAIXA_2 = 24000;
 	private Contribuinte contribuinte;
 
 	/**
@@ -38,6 +38,7 @@ public class Declaracao {
 	public char getTipoDeclaracao() {
 		return tipoDeclaracao;
 	}
+
 	/**
 	 * 
 	 * @param contribuinte
@@ -57,33 +58,33 @@ public class Declaracao {
 		double vlrDesconto;
 		int idade = contribuinte.getIdade();
 		int dependentes = contribuinte.getTotalDependentes();
-		//Se idade do Contribuinte for menor de 65 anos
+		// Se idade do Contribuinte for menor de 65 anos
 		if (idade < 65) {
-			//aplicando desconto de 2% até dois dependentes
+			// aplicando desconto de 2% até dois dependentes
 			if (dependentes <= 2) {
 				vlrDesconto = ((base * 0.02));
 				base = base - vlrDesconto;
-				//aplicando desconto de 3,5% de 2 a 4 dependentes
+				// aplicando desconto de 3,5% de 2 a 4 dependentes
 			} else if (dependentes > 2 && dependentes < 5) {
 				vlrDesconto = ((base * 0.035));
 				base = base - vlrDesconto;
 			} else {
-				//aplicando desconto de 5% a partir de 5 dependentes
+				// aplicando desconto de 5% a partir de 5 dependentes
 				vlrDesconto = ((base * 0.05));
 				base = base - vlrDesconto;
 			}
 		} else {
-			//Se contribuinte for maior de 65 anos 
+			// Se contribuinte for maior de 65 anos
 			if (dependentes <= 2) {
-				//aplicando desconto de 3% até 2 dependentes
+				// aplicando desconto de 3% até 2 dependentes
 				vlrDesconto = ((base * 0.03));
 				base = base - vlrDesconto;
-				//aplicando desconto de 4,5% de 2 a 4 dependentes
+				// aplicando desconto de 4,5% de 2 a 4 dependentes
 			} else if (dependentes > 2 && dependentes < 5) {
 				vlrDesconto = ((base * 0.045));
 				base = base - vlrDesconto;
 			} else {
-				//aplicando desconto de 6% a partir de 5 dependentes
+				// aplicando desconto de 6% a partir de 5 dependentes
 				vlrDesconto = ((base * 0.06));
 				base = base - vlrDesconto;
 			}
@@ -97,6 +98,7 @@ public class Declaracao {
 			return impostoPago;
 		}
 	}
+
 	/**
 	 * 
 	 * @param contribuinte
@@ -111,10 +113,11 @@ public class Declaracao {
 		} else if (base > FAIXA_1 && base < FAIXA_2) {
 			return (((base - FAIXA_1) * 0.15));
 		} else {
-		impostoPago = ((((FAIXA_1) * 0.15)) + (((base - FAIXA_2) * 0.275)));
-		return impostoPago;
-		} 
+			impostoPago = ((((FAIXA_1) * 0.15)) + (((base - FAIXA_2) * 0.275)));
+			return impostoPago;
+		}
 	}
+
 	/**
 	 * 
 	 * @return impostoPago
