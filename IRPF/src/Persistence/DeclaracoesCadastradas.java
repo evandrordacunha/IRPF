@@ -51,12 +51,10 @@ public class DeclaracoesCadastradas {
 
 	/**
 	 * 
-	 * @param declaracao
+	 * @return declaracoes
 	 */
-	public void deletarDeclaracao(Declaracao declaracao) {
-		if (pesquisarDeclaracao(declaracao) == true) {
-			declaracoes.remove(declaracao);
-		}
+	public ArrayList<Declaracao> getDeclaracoes() {
+		return declaracoes;
 	}
 
 	@Override
